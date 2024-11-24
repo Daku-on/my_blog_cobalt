@@ -1,0 +1,37 @@
+name: Deploy Cobalt to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # コードをチェックアウト
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Rust環境のセットアップ
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      # Cobaltをインストール
+      - name: Install Cobalt
+        run: cargo install cobalt-bin
+
+      # Cobaltでビルド
+      - name: Build site with Cobalt
+        run: cobalt build
+
+      # GitHub Pagesにデプロイ
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
