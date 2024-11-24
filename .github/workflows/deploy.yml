@@ -21,7 +21,24 @@ jobs:
           toolchain: stable
           override: true
 
-      # Cobaltをインストール
+      # cargoキャッシュを有効化
+      - name: Cache cargo registry
+        uses: actions/cache@v3
+        with:
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-registry-
+
+      - name: Cache cargo index
+        uses: actions/cache@v3
+        with:
+          path: ~/.cargo/git
+          key: ${{ runner.os }}-cargo-git-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-git-
+
+      # cobalt-binをインストール
       - name: Install Cobalt
         run: cargo install cobalt-bin
 
