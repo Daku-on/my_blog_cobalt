@@ -9,4 +9,4 @@ is_draft: true
 
 Welcome to the first post ever on cobalt.rs!
 
-Hello, World!
+Hi, Hello, World!
